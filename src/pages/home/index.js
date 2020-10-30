@@ -1,11 +1,18 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
+import { Route } from 'react-router-dom';
+import './index.css';
+
+import Index from '../Index';
+import HouseList from '../HouseList';
+import News from '../News';
+import Profile from '../Profile';
 
 const tabItems = [
 	{
 		title: '首页',
 		icon: 'icon-ind',
-		path: '/home/index'
+		path: '/home'
 	},
 	{
 		title: '找房',
@@ -28,7 +35,7 @@ export default class Home extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedTab: '/home/index'
+			selectedTab: this.props.history.location.pathname
 		};
 	}
 
@@ -50,8 +57,15 @@ export default class Home extends React.Component {
 
 	render() {
 		return (
-			<div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
-				<TabBar unselectedTintColor="#949494" tintColor="#33A3F4" barTintColor="white">
+			<div>
+				<div className="home">
+					<Route path="/home" exact component={Index} />
+					<Route path="/home/houselist" component={HouseList} />
+					<Route path="/home/news" component={News} />
+					<Route path="/home/profile" component={Profile} />
+				</div>
+
+				<TabBar unselectedTintColor="#949494" tintColor="#d7f4b5" barTintColor="white">
 					{this.renderTab()}
 				</TabBar>
 			</div>
