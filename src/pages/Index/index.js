@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, Flex, WhiteSpace } from 'antd-mobile';
+import { Carousel, Flex, Grid, WingBlank, WhiteSpace } from 'antd-mobile';
 
 import './index.scss';
 
@@ -22,12 +22,16 @@ export default class Index extends React.Component {
 	state = {
 		swiper: [],
 		imgHeight: 176,
+		news: [],
 		autoplay: false
 	};
 
 	async componentDidMount() {
 		let res = await axios.get('http://localhost:8080/home/swiper');
-		this.setState({ swiper: res.data.body }, () => {
+		let newsRes = await axios.get('http://localhost:8080/home/news?area=AREA%7C88cff55c-aaa4-e2e0');
+		let result = await axios.get('http://localhost:8080/home/groups?area=AREA%7C88cff55c-aaa4-e2e0');
+
+		this.setState({ swiper: res.data.body, news: newsRes.data.body, groups: result.data.body }, () => {
 			this.setState({ autoplay: true });
 		});
 	}
@@ -52,9 +56,11 @@ export default class Index extends React.Component {
 		));
 	}
 
+	// 渲染租房小组
 	renderNavMenu() {
 		return menus.map((item) => (
-			<Flex.Item key={item.name}
+			<Flex.Item
+				key={item.name}
 				onClick={() => {
 					this.props.history.push(item.path);
 				}}
@@ -67,6 +73,24 @@ export default class Index extends React.Component {
 		));
 	}
 
+	// 渲染最新资讯
+	renderNews() {
+		return this.state.news.map((item) => (
+			<div className="news-item" key={item.id}>
+				<div className="imgwrap">
+					<img className="img" src={`http://localhost:8080${item.imgSrc}`} alt="" />
+				</div>
+				<Flex className="content" direction="column" justify="between">
+					<h3 className="title">{item.title}</h3>
+					<Flex className="info" justify="between">
+						<span>{item.from}</span>
+						<span>{item.date}</span>
+					</Flex>
+				</Flex>
+			</div>
+		));
+	}
+
 	render() {
 		return (
 			<div>
@@ -75,6 +99,35 @@ export default class Index extends React.Component {
 				</Carousel>
 				<div className="NavMenu">
 					<Flex>{this.renderNavMenu()}</Flex>
+				</div>
+				<div className="groups">
+					<div className="groups-title">
+						<h3>租房小组</h3>
+						<span>更多</span>
+					</div>
+					{/* rendeItem 属性：用来 自定义 每一个单元格中的结构 */}
+					<Grid
+						data={this.state.groups}
+						columnNum={2}
+						square={false}
+						activeStyle
+						hasLine={false}
+						renderItem={(item) => (
+							<Flex className="grid-item" justify="between">
+								<div className="desc">
+									<h3>{item.title}</h3>
+									<p>{item.desc}</p>
+								</div>
+								<img src={`http://localhost:8080${item.imgSrc}`} alt="" />
+							</Flex>
+						)}
+					/>
+				</div>
+
+				<div className="news">
+					<h3 className="group-title">最新资讯</h3>
+
+					<WingBlank size="md"> {this.renderNews()}</WingBlank>
 				</div>
 			</div>
 		);
