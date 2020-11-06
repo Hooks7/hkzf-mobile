@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel, Flex, Grid, WingBlank, WhiteSpace } from 'antd-mobile';
-
 import './index.scss';
+import { location } from '../../utils';
 
 import axios from 'axios';
 
@@ -34,6 +34,8 @@ export default class Index extends React.Component {
 		this.setState({ swiper: res.data.body, news: newsRes.data.body, groups: result.data.body }, () => {
 			this.setState({ autoplay: true });
 		});
+
+		console.log(location());
 	}
 
 	// 轮播图渲染
@@ -126,9 +128,29 @@ export default class Index extends React.Component {
 
 				<div className="news">
 					<h3 className="group-title">最新资讯</h3>
-
 					<WingBlank size="md"> {this.renderNews()}</WingBlank>
 				</div>
+				{/* 搜索栏部分 */}
+				<Flex className="searchBox">
+					<Flex className="searchLeft">
+						<div className="location" onClick={
+							()=>this.props.history.push('/citylist')
+						}>
+							<span>{location().label}</span>
+							<i className="iconfont icon-arrow" />
+						</div>
+						<div className="searchForm">
+							<i className="iconfont icon-seach" />
+							<span>请输入小区或地址</span>
+						</div>
+					</Flex>
+					<i
+						className="iconfont icon-map"
+						onClick={() => {
+							this.props.history.push('/map');
+						}}
+					/>
+				</Flex>
 			</div>
 		);
 	}
