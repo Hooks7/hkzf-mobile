@@ -34,8 +34,8 @@ export default class Index extends React.Component {
 		this.setState({ swiper: res.data.body, news: newsRes.data.body, groups: result.data.body }, () => {
 			this.setState({ autoplay: true });
 		});
-
-		console.log(location());
+		let pin = await location();
+		this.setState({ locationCity: pin.label });
 	}
 
 	// 轮播图渲染
@@ -133,10 +133,8 @@ export default class Index extends React.Component {
 				{/* 搜索栏部分 */}
 				<Flex className="searchBox">
 					<Flex className="searchLeft">
-						<div className="location" onClick={
-							()=>this.props.history.push('/citylist')
-						}>
-							<span>{location().label}</span>
+						<div className="location" onClick={() => this.props.history.push('/citylist')}>
+							<span>{this.state.locationCity}</span>
 							<i className="iconfont icon-arrow" />
 						</div>
 						<div className="searchForm">
