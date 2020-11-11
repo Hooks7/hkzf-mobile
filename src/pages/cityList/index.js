@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { location } from '../../utils';
 import { AutoSizer, List } from 'react-virtualized';
-import { NavBar, Icon } from 'antd-mobile';
+import { NavBar, Icon, Toast } from 'antd-mobile';
 import './index.scss';
+
+const cutCityList = [ '北京', '上海', '广州', '深圳' ];
 
 export default class CityList extends React.Component {
 	constructor(props) {
@@ -30,7 +32,20 @@ export default class CityList extends React.Component {
 			<div key={key} style={style}>
 				<p className="title">{word.toUpperCase()}</p>
 				{item.map((e) => (
-					<p className="name" key={e.value}>
+					<p
+						className="name"
+						key={e.value}
+						onClick={() => {
+							let cityName = e.label;
+							if (cutCityList.indexOf(cityName) >= 0) {
+								localStorage.setItem('city', JSON.stringify(e));
+								this.props.history.push('/home');
+								return;
+							}
+
+							Toast.info('当前城市没有房源', 1);
+						}}
+					>
 						{e.label}
 					</p>
 				))}
@@ -71,6 +86,19 @@ export default class CityList extends React.Component {
 		return 36 + 50 * this.state.cityIndexList[word].length;
 	};
 
+	timeout;
+	// 滚动渲染
+	rowsRender = ({ startIndex, stopIndex }) => {
+		if (this.timeout) return;
+		this.timeout = setTimeout(() => {
+			// startIndex != this.state.activeIndex &&
+			this.setState({ activeIndex: startIndex }, () => {
+				this.timeout = null;
+			});
+			// console.log(this.timeout);
+		}, 0);
+	};
+
 	// 渲染右侧城市索引
 	renderCityIdx = () => {
 		return this.state.cityLetterList.map((item, index) => {
@@ -88,11 +116,6 @@ export default class CityList extends React.Component {
 				</p>
 			);
 		});
-	};
-
-	// 滚动渲染
-	rowsRender = ({ startIndex }) => {
-		startIndex != this.state.activeIndex && this.setState({ activeIndex: startIndex });
 	};
 
 	render() {

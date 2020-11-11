@@ -26,16 +26,18 @@
         bottom: 45px;
         display: flex;
         flex-direction: column;
-        height:  calc(100% - 45px);
+        height: calc(100% - 45px);
 
         .item {
-            flex: 1 ;
+            // flex: 1;
+            height: 13px;
+            margin-bottom: 15px;
         }
 
-        .active{
+        .active {
             background: brown;
             border-radius: 50%;
- 
+
             color: #ffffff;
             text-align: center;
         }
