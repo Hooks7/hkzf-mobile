@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { location } from '../../utils';
 import { AutoSizer, List } from 'react-virtualized';
-import { NavBar, Icon, Toast } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 import './index.scss';
+import NavHeader from '../../components/NavHeader';
 
 const cutCityList = [ '北京', '上海', '广州', '深圳' ];
 
@@ -121,9 +122,7 @@ export default class CityList extends React.Component {
 	render() {
 		return (
 			<div className="cityName">
-				<NavBar mode="light" icon={<Icon type="left" />} onLeftClick={() => this.props.history.go(-1)}>
-					城市选择
-				</NavBar>
+				<NavHeader children="城市选择" />
 				<AutoSizer>
 					{({ width, height }) => (
 						<List
