@@ -96,7 +96,6 @@ export default class CityList extends React.Component {
 			this.setState({ activeIndex: startIndex }, () => {
 				this.timeout = null;
 			});
-			// console.log(this.timeout);
 		}, 0);
 	};
 
