@@ -92,7 +92,6 @@ export default class CityList extends React.Component {
 	rowsRender = ({ startIndex, stopIndex }) => {
 		if (this.timeout) return;
 		this.timeout = setTimeout(() => {
-			// startIndex != this.state.activeIndex &&
 			this.setState({ activeIndex: startIndex }, () => {
 				this.timeout = null;
 			});
