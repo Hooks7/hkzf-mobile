@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import { NavBar, Icon } from 'antd-mobile';
+import NavHeader from '../../components/NavHeader/index';
 
 export default class MapIndex extends React.Component {
 	constructor(prop) {
@@ -16,9 +16,7 @@ export default class MapIndex extends React.Component {
 	render() {
 		return (
 			<div className="map">
-				<NavBar mode="light" icon={<Icon type="left" />} onLeftClick={() => this.props.history.go(-1)}>
-					地图找房
-				</NavBar>
+				<NavHeader children="地图找房" />
 				<div id="container" />
 			</div>
 		);
