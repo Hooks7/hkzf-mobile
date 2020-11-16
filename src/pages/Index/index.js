@@ -1,9 +1,10 @@
 import React from 'react';
-import { Carousel, Flex, Grid, WingBlank, WhiteSpace } from 'antd-mobile';
+import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile';
 import './index.scss';
 import { location } from '../../utils';
+import { baseURL } from '../../utils/baseUrl';
 
-import axios from 'axios';
+import { request } from '../../utils/request';
 
 import nav1 from '../../assets/images/nav-1.png';
 import nav2 from '../../assets/images/nav-2.png';
@@ -27,9 +28,9 @@ export default class Index extends React.Component {
 	};
 
 	async componentDidMount() {
-		let res = await axios.get('http://localhost:8080/home/swiper');
-		let newsRes = await axios.get('http://localhost:8080/home/news?area=AREA%7C88cff55c-aaa4-e2e0');
-		let result = await axios.get('http://localhost:8080/home/groups?area=AREA%7C88cff55c-aaa4-e2e0');
+		let res = await request.get('home/swiper');
+		let newsRes = await request.get('home/news?area=AREA%7C88cff55c-aaa4-e2e0');
+		let result = await request.get('home/groups?area=AREA%7C88cff55c-aaa4-e2e0');
 
 		this.setState({ swiper: res.data.body, news: newsRes.data.body, groups: result.data.body }, () => {
 			this.setState({ autoplay: true });
@@ -47,7 +48,7 @@ export default class Index extends React.Component {
 				style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
 			>
 				<img
-					src={`http://localhost:8080${val.imgSrc}`}
+					src={baseURL + val.imgSrc}
 					style={{ width: '100%', verticalAlign: 'top' }}
 					onLoad={() => {
 						window.dispatchEvent(new Event('resize'));
@@ -80,7 +81,7 @@ export default class Index extends React.Component {
 		return this.state.news.map((item) => (
 			<div className="news-item" key={item.id}>
 				<div className="imgwrap">
-					<img className="img" src={`http://localhost:8080${item.imgSrc}`} alt="" />
+					<img className="img" src={baseURL + item.imgSrc} alt="" />
 				</div>
 				<Flex className="content" direction="column" justify="between">
 					<h3 className="title">{item.title}</h3>
