@@ -6,25 +6,25 @@ import PropTypes from 'prop-types';
 
 function SearchHeader({ history, locationCity }) {
 	return (
-		<Flex className={style.searchBox}>
-			<i className="iconfont icon-back" />
-			<Flex className="searchLeft">
-				<div className="location" onClick={() => history.push('/citylist')}>
-					<span>{locationCity}</span>
-					<i className="iconfont icon-arrow" />
-				</div>
-				<div className="searchForm">
-					<i className="iconfont icon-seach" />
-					<span>请输入小区或地址</span>
-				</div>
-			</Flex>
-			<i
-				className={`iconfont icon-map ${style.iconMap}`}
-				onClick={() => {
-					history.push('/map');
-				}}
-			/>
-		</Flex>
+		// <Flex className={style.searchBox}>
+		// 	<i className="iconfont icon-back" />
+		// 	<Flex className="searchLeft">
+		// 		<div className="location" onClick={() => history.push('/citylist')}>
+		// 			<span>{locationCity}</span>
+		// 			<i className="iconfont icon-arrow" />
+		// 		</div>
+		// 		<div className="searchForm">
+		// 			<i className="iconfont icon-seach" />
+		// 			<span>请输入小区或地址</span>
+		// 		</div>
+		// 	</Flex>
+		// 	<i
+		// 		className={`iconfont icon-map ${style.iconMap}`}
+		// 		onClick={() => {
+		// 			history.push('/map');
+		// 		}}
+		// 	/>
+		// </Flex>
 	);
 }
 
