@@ -2,7 +2,7 @@ import React from 'react';
 import { NavBar, Icon } from 'antd-mobile';
 import { withRouter } from 'react-router-dom';
 // 只有路由 Route 直接渲染的组件才能够获取到路由信息，如果需要在其他组件中获取到路由信息可以通过 withRouter 高阶组件来获取
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class NavHeader extends React.Component {
 	render() {
@@ -15,7 +15,7 @@ class NavHeader extends React.Component {
 }
 
 NavHeader.propTypes = {
-	children: propTypes.string.isRequired
+	children: PropTypes.string.isRequired
 };
 
 NavHeader.defaultProps = {

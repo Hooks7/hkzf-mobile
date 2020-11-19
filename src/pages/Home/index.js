@@ -8,7 +8,6 @@ import HouseList from '../HouseList';
 import News from '../News';
 import Profile from '../Profile';
 
-
 const tabItems = [
 	{
 		title: '首页',
@@ -40,6 +39,13 @@ export default class Home extends React.Component {
 		};
 	}
 
+	componentDidUpdate(prevProps) {
+		const pathName = this.props.location.pathname;
+		const prevPathName = prevProps.location.pathname;
+
+		pathName != prevPathName && this.setState({ selectedTab: pathName });
+	}
+
 	renderTab() {
 		return tabItems.map((item) => (
 			<TabBar.Item
@@ -64,7 +70,6 @@ export default class Home extends React.Component {
 					<Route path="/home/houselist" component={HouseList} />
 					<Route path="/home/news" component={News} />
 					<Route path="/home/profile" component={Profile} />
-
 				</div>
 
 				<TabBar unselectedTintColor="#949494" tintColor="#d7f4b5" barTintColor="white">
