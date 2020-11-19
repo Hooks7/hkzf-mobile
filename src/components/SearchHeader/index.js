@@ -7,7 +7,12 @@ import PropTypes from 'prop-types';
 function SearchHeader({ history, locationCity }) {
 	return (
 		<Flex className={style.searchBox}>
-			<i className="iconfont icon-back" />
+			<i
+				className="iconfont icon-back"
+				onClick={() => {
+					history.go(-1);
+				}}
+			/>
 			<Flex className="searchLeft">
 				<div className="location" onClick={() => history.push('/citylist')}>
 					<span>{locationCity}</span>
@@ -29,7 +34,7 @@ function SearchHeader({ history, locationCity }) {
 }
 
 SearchHeader.propTypes = {
-	locationCity: PropTypes.string.isRequired,
+	locationCity: PropTypes.string.isRequired
 };
 
 export default withRouter(SearchHeader);
