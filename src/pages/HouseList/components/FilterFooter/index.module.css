@@ -1,0 +1,22 @@
+.filterFooter {
+	display: flex;
+	border-top: 1px solid #cccccc;
+	background: #ffffff;
+}
+
+.filterFooter h2 {
+	margin: 0;
+	padding: 15px 0;
+	text-align: center;
+}
+
+.filterFooter h2:first-child {
+	flex: 1;
+	color: #21b97a;
+}
+    
+.filterFooter h2:last-child {
+	flex: 2;
+	background: #21b97a;
+	color: honeydew;
+}

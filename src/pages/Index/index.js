@@ -3,8 +3,10 @@ import { Carousel, Flex, Grid, WingBlank } from 'antd-mobile';
 import './index.scss';
 import { location } from '../../utils';
 import { baseURL } from '../../utils/baseUrl';
-
 import { request } from '../../utils/request';
+
+import SearchHeader from 'components/SearchHeader';
+import styles from './index.module.css';
 
 import nav1 from '../../assets/images/nav-1.png';
 import nav2 from '../../assets/images/nav-2.png';
@@ -131,25 +133,8 @@ export default class Index extends React.Component {
 					<h3 className="group-title">最新资讯</h3>
 					<WingBlank size="md"> {this.renderNews()}</WingBlank>
 				</div>
-				{/* 搜索栏部分 */}
-				<Flex className="searchBox">
-					<Flex className="searchLeft">
-						<div className="location" onClick={() => this.props.history.push('/citylist')}>
-							<span>{this.state.locationCity}</span>
-							<i className="iconfont icon-arrow" />
-						</div>
-						<div className="searchForm">
-							<i className="iconfont icon-seach" />
-							<span>请输入小区或地址</span>
-						</div>
-					</Flex>
-					<i
-						className="iconfont icon-map"
-						onClick={() => {
-							this.props.history.push('/map');
-						}}
-					/>
-				</Flex>
+
+				<SearchHeader className={styles.searchHeader} locationCity={this.state.locationCity} />
 			</div>
 		);
 	}

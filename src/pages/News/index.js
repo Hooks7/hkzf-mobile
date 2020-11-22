@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default class News extends React.Component {
-	render() {
-		return <div>News</div>;
-	}
+export default function News() {
+	return (
+		<div>
+			<span>News</span>
+		</div>
+	);
 }

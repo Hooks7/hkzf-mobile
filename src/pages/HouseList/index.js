@@ -1,24 +1,22 @@
-import React from 'react';
-import SearchHeader from '../../components/SearchHeader';
-import { location } from '../../utils';
+import SearchHeader from 'components/SearchHeader';
+import { location } from 'utils';
+import { useState, useEffect } from 'react';
+import Filter from './components/Filter/index';
+import style from './index.module.css';
 
-export default class HouseList extends React.Component {
-	state = {
-		locationCity: ''
-	};
+export default function HouseList() {
+	const [ locationCity, setLocationCity ] = useState('');
 
-	async componentDidMount() {
+	useEffect(async () => {
 		let res = await location();
-		this.setState({ locationCity: res.label });
-	}
+		setLocationCity(res.label);
+	}, []);
 
-	render() {
-		let { locationCity } = this.state;
-		return (
-			<div>
-				<SearchHeader locationCity={locationCity} />
-				HouseList
-			</div>
-		);
-	}
+	
+	return (
+		<div className={style.page}>
+			<SearchHeader locationCity={locationCity} />
+			<Filter />
+		</div>
+	);
 }

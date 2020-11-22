@@ -1,0 +1,13 @@
+.searchHeader {
+	position: absolute;
+	top: 25px;
+	box-sizing: border-box;
+	z-index: 1;
+	width: 100%;
+    padding: 0 10px;
+    background: none;
+}
+
+.searchHeader .icon-map{
+    color: hotpink;
+}

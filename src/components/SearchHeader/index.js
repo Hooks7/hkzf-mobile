@@ -4,15 +4,18 @@ import style from './index.module.css';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function SearchHeader({ history, locationCity }) {
+function SearchHeader({ history, locationCity, className }) {
 	return (
-		<Flex className={style.searchBox}>
-			<i
-				className="iconfont icon-back"
-				onClick={() => {
-					history.go(-1);
-				}}
-			/>
+		<Flex className={[ style.searchBox, className || '' ].join(' ')}>
+			{!className && (
+				<i
+					className="iconfont icon-back"
+					onClick={() => {
+						history.go(-1);
+					}}
+				/>
+			)}
+
 			<Flex className="searchLeft">
 				<div className="location" onClick={() => history.push('/citylist')}>
 					<span>{locationCity}</span>

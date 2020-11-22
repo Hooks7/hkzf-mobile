@@ -1,0 +1,15 @@
+.title {
+	border-bottom: 1px solid #cccccc;
+	height: 35px;
+	line-height: 30px;
+	z-index: 99;
+	background: #ffffff;
+}
+
+.item {
+	text-align: center;
+}
+
+.sel {
+	color: #21b97a;
+}
