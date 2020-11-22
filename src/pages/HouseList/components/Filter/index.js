@@ -30,7 +30,11 @@ const Filter = () => {
 	// 筛选条件
 	const [ filterList, setFilterList ] = useState({});
 	// 当前默认选中的标题
+<<<<<<< HEAD
 	const [ titleType, setTitleType ] = useState('area');
+=======
+	const [ titleType, setTitleType ] = useState('');
+>>>>>>> 22ead20... filter update
 
 	useEffect(async () => {
 		let { value } = await location();
@@ -46,15 +50,26 @@ const Filter = () => {
 
 	const onTitleClick = (type) => {
 		setTitleType(type);
+<<<<<<< HEAD
 		if (type == 'more') {
 			setFilterMoreSta(true);
+=======
+		setDefaultVal(selectedValues[type]);
+		updateTitleSta(type, true);
+		if (type == 'more') {
+			setFilterMoreSta(true);
+			setMask(false);
+>>>>>>> 22ead20... filter update
 			return;
 		}
 
 		const { area, subway, price, rentType } = filterList;
 
 		setMask(true);
+<<<<<<< HEAD
 		setDefaultVal(selectedValues[type]);
+=======
+>>>>>>> 22ead20... filter update
 
 		switch (type) {
 			case 'area':
@@ -69,24 +84,36 @@ const Filter = () => {
 		}
 
 		setCols(type !== 'area' ? 1 : 3);
+<<<<<<< HEAD
 		updateTitleSta(type, true);
+=======
+>>>>>>> 22ead20... filter update
 	};
 
 	// 关闭筛选
 	const closeFilter = () => {
+<<<<<<< HEAD
 		if (filterMoreSta) {
 			setFilterMoreSta(false);
 			return;
 		}
 
 		setMask(false);
+=======
+		setMask(false);
+		setFilterMoreSta(false);
+>>>>>>> 22ead20... filter update
 		updateTitleSta(titleType);
 	};
 
 	// 确定筛选
 	const confirmFilter = (selVal) => {
 		setMask(false);
+<<<<<<< HEAD
 
+=======
+		setFilterMoreSta(false);
+>>>>>>> 22ead20... filter update
 		selectedValues[titleType] = selVal;
 		updateTitleSta(titleType);
 	};
@@ -109,14 +136,22 @@ const Filter = () => {
 			} else if (key == 'price' && selectedVal[0] !== 'null') {
 				//有值 price应该选中
 				titleSelectedStatus[key] = true;
+<<<<<<< HEAD
 			} else if (key == 'more' && selectedVal.length != 0) {
+=======
+			} else if (key == 'more' && Object.keys(selectedVal).length != 0) {
+				titleSelectedStatus[key] = true;
+>>>>>>> 22ead20... filter update
 				//more有值应该选中
 				//  more要选中
 			} else {
 				titleSelectedStatus[key] = false; //没有值 不选中
 			}
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22ead20... filter update
 		setTitleStatus(titleSelectedStatus);
 	};
 
@@ -141,7 +176,17 @@ const Filter = () => {
 			</div>
 
 			{filterMoreSta && (
+<<<<<<< HEAD
 				<FilterMore filterList={filterList} filterMoreSta={filterMoreSta} closeFilter={closeFilter} />
+=======
+				<FilterMore
+					defaultVal={defaultVal}
+					filterList={filterList}
+					filterMoreSta={filterMoreSta}
+					closeFilter={closeFilter}
+					confirmFilter={confirmFilter}
+				/>
+>>>>>>> 22ead20... filter update
 			)}
 		</div>
 	);

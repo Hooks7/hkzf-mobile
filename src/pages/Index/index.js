@@ -26,7 +26,8 @@ export default class Index extends React.Component {
 		swiper: [],
 		imgHeight: 176,
 		news: [],
-		autoplay: false
+		autoplay: false,
+		locationCity: ''
 	};
 
 	async componentDidMount() {
