@@ -1,6 +1,6 @@
 // import { useState, useEffect } from 'react';
 import React, { Component } from 'react';
-
+import styles from './index.module.css'
 import { PickerView } from 'antd-mobile';
 import FilterFooter from '../FilterFooter';
 
@@ -16,7 +16,7 @@ export default class FilterPicker extends Component {
 		let { data, closeFilter, confirmFilter, cols } = this.props;
 
 		return (
-			<div style={{ background: '#ffffff' }}>
+			<div className={styles.picker}>
 				<PickerView
 					data={data}
 					cols={cols}

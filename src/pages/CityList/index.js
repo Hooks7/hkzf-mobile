@@ -90,11 +90,11 @@ export default class CityList extends React.Component {
 	timeout;
 	// 滚动渲染
 	rowsRender = ({ startIndex, stopIndex }) => {
+		// console.log(startIndex);
 		if (this.timeout) return;
 		this.timeout = setTimeout(() => {
-			this.setState({ activeIndex: startIndex }, () => {
-				this.timeout = null;
-			});
+			this.setState({ activeIndex: startIndex });
+			this.timeout = null;
 		}, 0);
 	};
 

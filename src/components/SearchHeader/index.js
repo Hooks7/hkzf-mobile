@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex } from 'antd-mobile';
 import style from './index.module.css';
 import { withRouter } from 'react-router-dom';

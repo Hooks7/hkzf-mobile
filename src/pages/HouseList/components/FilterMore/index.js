@@ -2,43 +2,45 @@ import React, { Component } from 'react';
 import FilterFooter from '../FilterFooter';
 import styles from './index.module.css';
 
-const selVal = {
-	characteristicSel: '',
-	floorSel: '',
-	orientedSel: '',
-	roomTypeSel: ''
-};
-
 export default class FilterMore extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { selVal };
+		this.state = { more: this.props.defaultVal };
 	}
 
 	// 渲染标签
-	renderFilters(mydata, key) {
-		let { selVal } = this.state;
+	renderFilters(mydata, type) {
+		let { more } = this.state;
 
-		// 高亮类名： styles.tagActive  item.value是id
 		return mydata.map((item) => {
 			return (
 				<span
 					key={item.value}
-					className={[ styles.tag, selVal[key] == item ? styles.tagActive : '' ].join(' ')}
+					className={[ styles.tag, more.indexOf(item.value) >= 0 ? styles.tagActive : '' ].join(' ')}
 					onClick={() => {
-						let newSelVal = { ...selVal };
-						newSelVal[key] = selVal[key] == item ? '' : item;
-						this.setState({ selVal: newSelVal });
+						let newMore = [ ...more ];
+						let select = type || false; // 是否多选
+						let index = newMore.indexOf(item.value);
+
+						if (!select) {
+							for (let i = 0; i < newMore.length; i++) {
+								if (mydata.map((item) => item.value).indexOf(newMore[i]) >= 0) {
+									select = true;
+									continue;
+								}
+							}
+							select === true ? index >= 0 && newMore.splice(index, 1) : newMore.push(item.value);
+						} else {
+							index >= 0 ? newMore.splice(index, 1) : newMore.push(item.value);
+						}
+
+						this.setState({ more: newMore });
 					}}
 				>
 					{item.label}
 				</span>
 			);
 		});
-	}
-
-	componentDidMount() {
-		this.props.defaultVal && this.setState({ selVal: this.props.defaultVal });
 	}
 
 	render() {
@@ -53,16 +55,16 @@ export default class FilterMore extends Component {
 				<div className={styles.tags}>
 					<dl className={styles.dl}>
 						<dt className={styles.dt}>户型</dt>
-						<dd className={styles.dd}>{this.renderFilters(roomType, 'roomTypeSel')}</dd>
+						<dd className={styles.dd}>{this.renderFilters(roomType)}</dd>
 
 						<dt className={styles.dt}>朝向</dt>
-						<dd className={styles.dd}>{this.renderFilters(oriented, 'orientedSel')}</dd>
+						<dd className={styles.dd}>{this.renderFilters(oriented)}</dd>
 
 						<dt className={styles.dt}>楼层</dt>
-						<dd className={styles.dd}>{this.renderFilters(floor, 'floorSel')}</dd>
+						<dd className={styles.dd}>{this.renderFilters(floor)}</dd>
 
 						<dt className={styles.dt}>房屋亮点</dt>
-						<dd className={styles.dd}>{this.renderFilters(characteristic, 'characteristicSel')}</dd>
+						<dd className={styles.dd}>{this.renderFilters(characteristic, true)}</dd>
 					</dl>
 				</div>
 
@@ -70,10 +72,10 @@ export default class FilterMore extends Component {
 				<FilterFooter
 					className={styles.footer}
 					clearFilter={() => {
-						this.setState({ selVal: {} });
+						this.setState({ more: [] });
 					}}
 					confirmFilter={() => {
-						confirmFilter(this.state.selVal);
+						confirmFilter(this.state.more);
 					}}
 				/>
 			</div>

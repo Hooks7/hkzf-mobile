@@ -22,7 +22,7 @@ const selectedValues = {
 	more: []
 };
 
-const Filter = () => {
+const Filter = ({onFilter}) => {
 	// 选中状态
 	const [ titleStatus, setTitleStatus ] = useState(titleSelectedStatus);
 	// 遮罩层状态
@@ -39,7 +39,7 @@ const Filter = () => {
 	}, []);
 
 	const [ data, setData ] = useState('');
-	const [ defaultVal, setDefaultVal ] = useState(selectedValues['area']);
+	const [ defaultVal, setDefaultVal ] = useState('');
 	const [ cols, setCols ] = useState(3);
 	// 最后一个筛选条件状态
 	const [ filterMoreSta, setFilterMoreSta ] = useState(false);
@@ -48,6 +48,7 @@ const Filter = () => {
 		setTitleType(type);
 		setDefaultVal(selectedValues[type]);
 		updateTitleSta(type, true);
+
 		if (type == 'more') {
 			setFilterMoreSta(true);
 			setMask(false);
@@ -86,6 +87,23 @@ const Filter = () => {
 		setFilterMoreSta(false);
 		selectedValues[titleType] = selVal;
 		updateTitleSta(titleType);
+
+		let { area, mode, price, more } = selectedValues;
+
+		let obj = {};
+		obj.mode = mode[0];
+		obj.price = price[0];
+		obj.more = more.join(',');
+
+		let areaVal = 'null';
+
+		if (area.length === 3) {
+			areaVal = area[2] !== 'null' ? area[2] : area[1];
+		}
+
+		obj[area[0]] = areaVal;
+
+		onFilter(obj)
 	};
 
 	// 顶部筛选状态更新
