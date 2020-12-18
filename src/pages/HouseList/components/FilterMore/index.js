@@ -19,17 +19,17 @@ export default class FilterMore extends Component {
 					className={[ styles.tag, more.indexOf(item.value) >= 0 ? styles.tagActive : '' ].join(' ')}
 					onClick={() => {
 						let newMore = [ ...more ];
-						let select = type || false; // 是否多选
+						let select = type === true || false; // 是否多选
 						let index = newMore.indexOf(item.value);
 
+						let newMoreIdx = type === 'roomType' ? 0 : type === 'oriented' ? 1 : 2;
+
 						if (!select) {
-							for (let i = 0; i < newMore.length; i++) {
-								if (mydata.map((item) => item.value).indexOf(newMore[i]) >= 0) {
-									select = true;
-									continue;
-								}
+							if (newMore[newMoreIdx] != item.value) {
+								newMore[newMoreIdx] = item.value;
+							} else {
+								newMore[newMoreIdx] = '';
 							}
-							select === true ? index >= 0 && newMore.splice(index, 1) : newMore.push(item.value);
 						} else {
 							index >= 0 ? newMore.splice(index, 1) : newMore.push(item.value);
 						}
@@ -55,13 +55,13 @@ export default class FilterMore extends Component {
 				<div className={styles.tags}>
 					<dl className={styles.dl}>
 						<dt className={styles.dt}>户型</dt>
-						<dd className={styles.dd}>{this.renderFilters(roomType)}</dd>
+						<dd className={styles.dd}>{this.renderFilters(roomType, 'roomType')}</dd>
 
 						<dt className={styles.dt}>朝向</dt>
-						<dd className={styles.dd}>{this.renderFilters(oriented)}</dd>
+						<dd className={styles.dd}>{this.renderFilters(oriented, 'oriented')}</dd>
 
 						<dt className={styles.dt}>楼层</dt>
-						<dd className={styles.dd}>{this.renderFilters(floor)}</dd>
+						<dd className={styles.dd}>{this.renderFilters(floor, 'floor')}</dd>
 
 						<dt className={styles.dt}>房屋亮点</dt>
 						<dd className={styles.dd}>{this.renderFilters(characteristic, true)}</dd>

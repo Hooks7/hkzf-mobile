@@ -7,6 +7,12 @@ export default class Sticky extends React.Component {
 	componentDidMount() {
 		window.addEventListener('scroll', this.handleScroll);
 	}
+
+	// 在组件卸载时，解绑事件
+	componentWillUnmount() {
+		window.removeEventListener('scroll', this.handleScroll);
+	}
+
 	handleScroll = (e) => {
 		let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 

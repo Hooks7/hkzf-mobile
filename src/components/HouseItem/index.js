@@ -1,10 +1,21 @@
 import styles from './index.module.css';
+import { withRouter } from 'react-router-dom';
 
-export default function HouseItem({ item, style }) {
+ function HouseItem({ item, style, history }) {
 	if (!!item) {
-		let { title, houseImg, desc, tags, price } = item;
+		let { title, houseImg, desc, tags, price, houseCode } = item;
 		return (
-			<div className={styles.house} style={style}>
+			<div
+				className={styles.house}
+				style={style}
+				onClick={() => {
+					console.log(history);
+
+					history.push(`/detail/${houseCode}`);
+
+					console.log(123);
+				}}
+			>
 				<div className={styles.imgWrap}>
 					<img className={styles.img} src={`http://localhost:8080${houseImg}`} alt="" />
 				</div>
@@ -20,7 +31,7 @@ export default function HouseItem({ item, style }) {
 								</span>
 							);
 						})}
-					</div>    
+					</div>
 					<div className={styles.price}>
 						<span className={styles.priceNum}>{price}</span> 元/月
 					</div>
@@ -30,3 +41,7 @@ export default function HouseItem({ item, style }) {
 	}
 	return <div style={style}>Loading......</div>;
 }
+
+
+
+export default withRouter(HouseItem)

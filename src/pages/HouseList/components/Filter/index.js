@@ -93,7 +93,7 @@ const Filter = ({onFilter}) => {
 		let obj = {};
 		obj.mode = mode[0];
 		obj.price = price[0];
-		obj.more = more.join(',');
+		obj.more = more.filter(e=>{return e}).join(',');
 
 		let areaVal = 'null';
 
