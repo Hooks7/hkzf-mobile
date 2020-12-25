@@ -1,7 +1,7 @@
 import styles from './index.module.css';
 import { withRouter } from 'react-router-dom';
 
- function HouseItem({ item, style, history }) {
+function HouseItem({ item, style, history }) {
 	if (!!item) {
 		let { title, houseImg, desc, tags, price, houseCode } = item;
 		return (
@@ -42,6 +42,4 @@ import { withRouter } from 'react-router-dom';
 	return <div style={style}>Loading......</div>;
 }
 
-
-
-export default withRouter(HouseItem)
+export default withRouter(HouseItem);

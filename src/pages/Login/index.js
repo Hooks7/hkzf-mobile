@@ -58,11 +58,31 @@ export default withFormik({
 		password: Yup.string().required('密码为必填项').matches(REG_PWD, '长度为5到12位，只能出现数字、字母、下划线')
 	}),
 
-	mapPropsToValues: () => ({ username: '', password: '' }),
+	mapPropsToValues: () => ({ username: 'test2', password: 'test2' }),
 	handleSubmit: async (values, { props }) => {
-		console.log(values);
-
 		// 获取账号和密码
 		const { username, password } = values;
+
+		let res = await request.post('/user/login', {
+			username,
+			password
+		});
+
+		const { status, body, description } = res.data;
+
+		if (status === 200) {
+			localStorage.setItem('hkzf_token', body.token);
+
+			if (props.location.state) {
+				props.history.replace(props.location.state.from.pathname);
+				return;
+			}
+
+			props.history.go(-1);
+
+			return;
+		}
+
+		Toast.info(description, 2, null, false);
 	}
 })(Login);
