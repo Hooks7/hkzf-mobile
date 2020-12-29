@@ -8,14 +8,10 @@ import axios from 'axios';
 const BMapGL = window.BMapGL;
 
 export default class MapIndex extends React.Component {
-	constructor(prop) {
-		super(prop);
-
-		this.state = {
-			houseList: [],
-			isShow: false
-		};
-	}
+	state = {
+		houseList: [],
+		isShow: false
+	};
 
 	async componentDidMount() {
 		let locationCity = await location();
@@ -26,11 +22,9 @@ export default class MapIndex extends React.Component {
 		// 将地址解析结果显示在地图上，并调整地图视野
 		this.addressResolution(locationCity, 11);
 		this.map.enableScrollWheelZoom(true);
-
 		this.map.addControl(new BMapGL.NavigationControl());
 		this.map.addControl(new BMapGL.ScaleControl());
 		this.map.addControl(new BMapGL.MapTypeControl());
-
 		this.map.addEventListener('movestart', (e) => {
 			this.setState({ isShow: false });
 		});
@@ -52,9 +46,15 @@ export default class MapIndex extends React.Component {
 		);
 	}
 
-	renderHouseList() {
+	renderHouseList = () => {
 		return this.state.houseList.map((item) => (
-			<div className={styles.house} key={item.title}>
+			<div
+				className={styles.house}
+				key={item.title}
+				onClick={() => {
+					this.props.history.push(`/detail/${item.houseCode}`);
+				}}
+			>
 				<div className={styles.imgWrap}>
 					<img className={styles.img} src={`http://localhost:8080${item.houseImg}`} alt="" />
 				</div>
@@ -64,7 +64,11 @@ export default class MapIndex extends React.Component {
 					<div>
 						{/* ['近地铁', '随时看房'] */}
 						{item.tags.map((e) => {
-							return <span className={[ styles.tag, styles.tag1 ].join(' ')} key={e}>{e}</span>;
+							return (
+								<span className={[ styles.tag, styles.tag1 ].join(' ')} key={e}>
+									{e}
+								</span>
+							);
 						})}
 					</div>
 					<div className={styles.price}>
@@ -73,7 +77,7 @@ export default class MapIndex extends React.Component {
 				</div>
 			</div>
 		));
-	}
+	};
 
 	async renderMapHouse(value) {
 		Toast.loading('Loading...');
@@ -128,7 +132,6 @@ export default class MapIndex extends React.Component {
 
 				this.setState({ houseList: res.data.body.list, isShow: true });
 				Toast.hide();
-
 			});
 		});
 	}

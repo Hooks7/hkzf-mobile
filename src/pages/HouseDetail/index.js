@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-
 import { Carousel, Flex } from 'antd-mobile';
-
+import { Modal } from 'antd-mobile';
 import NavHeader from '../../components/NavHeader';
 import HouseItem from '../../components/HouseItem';
 import HousePackage from '../../components/HousePackage';
-
 import { baseURL } from '../../utils/baseUrl';
 import { request } from '../../utils/request';
-
+import { isAuth } from '../../utils/token';
 import styles from './index.module.css';
 
 // 猜你喜欢
@@ -93,17 +91,52 @@ export default class HouseDetail extends Component {
 			houseCode: '',
 			// 房屋描述
 			description: ''
-		}
+		},
+		isFavorite: false
 	};
 
 	componentDidMount() {
 		// 获取配置好的路由参数：
 		// console.log('路由参数对象：', this.props.match.params)
-		// console.log(this.props)
+		// console.log(this.props);
 
 		// 获取房屋数据
 		this.getHouseDetail();
+		this.getFavorite();
 	}
+
+	// 是否收藏
+	async getFavorite() {
+		let res = await request.get(`/user/favorites/${this.props.match.params.id}`);
+
+		if (res.data.body) this.setState({ isFavorite: res.data.body.isFavorite });
+	}
+
+	handleFavorite = async () => {
+		let { location, match, history } = this.props;
+
+		if (!isAuth()) {
+			return Modal.alert('提示', '登录后才能收藏房源，是否去登录?', [
+				{ text: '取消' },
+				{
+					text: '去登录',
+					onPress: () => {
+						history.push('/login', { from: location });
+					}
+				}
+			]);
+			return;
+		}
+
+		if (this.state.isFavorite) {
+			await request.delete(`/user/favorites/${match.params.id}`);
+			this.setState({ isFavorite: false });
+			return;
+		}
+
+		await request.post(`/user/favorites/${match.params.id}`);
+		this.setState({ isFavorite: true });
+	};
 
 	/* 
     展示房屋详情：
@@ -126,8 +159,6 @@ export default class HouseDetail extends Component {
 
 		const res = await request.get(`/houses/${id}`);
 
-		console.log(res.data.body);
-
 		this.setState({
 			houseInfo: res.data.body,
 			isLoading: false
@@ -140,14 +171,10 @@ export default class HouseDetail extends Component {
 	}
 
 	// 渲染轮播图结构
-	renderSwipers() {
+	renderSwiper() {
 		const { houseInfo: { houseImg } } = this.state;
 
-		return houseImg.map((item) => (
-			<a key={item} href="http://itcast.cn">
-				<img src={baseURL + item} alt="" />
-			</a>
-		));
+		return houseImg.map((item) => <img src={baseURL + item} alt="" />);
 	}
 
 	// 渲染地图
@@ -164,10 +191,7 @@ export default class HouseDetail extends Component {
 		});
 
 		label.setStyle(labelStyle);
-		label.setContent(`
-      <span>${community}</span>
-      <div class="${styles.mapArrow}"></div>
-    `);
+		label.setContent(`<span>${community}</span>	<div class="${styles.mapArrow}"></div>`);
 		map.addOverlay(label);
 	}
 
@@ -195,7 +219,8 @@ export default class HouseDetail extends Component {
 	render() {
 		const {
 			isLoading,
-			houseInfo: { community, title, price, roomType, size, floor, oriented, supporting, description }
+			houseInfo: { community, title, price, roomType, size, floor, oriented, supporting, description },
+			isFavorite
 		} = this.state;
 		return (
 			<div className={styles.root}>
@@ -211,7 +236,7 @@ export default class HouseDetail extends Component {
 				<div className={styles.slides}>
 					{!isLoading ? (
 						<Carousel autoplay infinite autoplayInterval={5000}>
-							{this.renderSwipers()}
+							{this.renderSwiper()}
 						</Carousel>
 					) : (
 						''
@@ -323,8 +348,14 @@ export default class HouseDetail extends Component {
 				{/* 底部收藏按钮 */}
 				<Flex className={styles.fixedBottom}>
 					<Flex.Item>
-						<img src={baseURL + '/img/unstar.png'} className={styles.favoriteImg} alt="收藏" />
-						<span className={styles.favorite}>收藏</span>
+						<img
+							src={baseURL + (isFavorite ? '/img/star.png' : '/img/unstar.png')}
+							className={styles.favoriteImg}
+							alt="收藏"
+						/>
+						<span className={styles.favorite} onClick={this.handleFavorite}>
+							{isFavorite ? '已收藏' : '收藏'}
+						</span>
 					</Flex.Item>
 					<Flex.Item>在线咨询</Flex.Item>
 					<Flex.Item>

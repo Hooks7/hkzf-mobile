@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { getToken, removeToken } from './token';
 
 let request = axios.create({
@@ -7,11 +8,15 @@ let request = axios.create({
 
 request.interceptors.request.use((config) => {
 	if (getToken()) config.headers.authorization = getToken();
+
 	return config;
 });
 
 request.interceptors.response.use((response) => {
-	if (response.data.status == 400) removeToken();
+	if (response.data.status == 400) {
+		window.location.href = '/login';
+		removeToken();
+	}
 
 	return response;
 });

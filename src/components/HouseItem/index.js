@@ -9,11 +9,7 @@ function HouseItem({ item, style, history }) {
 				className={styles.house}
 				style={style}
 				onClick={() => {
-					console.log(history);
-
 					history.push(`/detail/${houseCode}`);
-
-					console.log(123);
 				}}
 			>
 				<div className={styles.imgWrap}>

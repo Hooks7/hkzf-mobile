@@ -1,23 +1,23 @@
 import { Route, Redirect } from 'react-router-dom';
 import { isAuth } from './token';
 
-export default function AuthRoute({ children, ...reset }) {
+export default function AuthRoute({ Component, ...reset }) {
 	return (
 		<Route
 			{...reset}
-			render={({ location }) => {
+			render={(props) => {
 				if (!isAuth()) {
 					return (
 						<Redirect
 							to={{
 								pathname: '/login',
-								state: { from: location }
+								state: { from: props.location }
 							}}
 						/>
 					);
 				}
 
-				return children;
+				return <Component {...props} />;
 			}}
 		/>
 	);
