@@ -14,7 +14,7 @@ request.interceptors.request.use((config) => {
 
 request.interceptors.response.use((response) => {
 	if (response.data.status == 400) {
-		window.location.href = '/login';
+		// window.location.href = '/login';
 		removeToken();
 	}
 
